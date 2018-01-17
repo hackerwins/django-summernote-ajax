@@ -5,7 +5,7 @@ from django.urls import (
     path
 )
 
-from .views import (
+from sandbox_app.views import (
     PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView, PostFileUploadView
 )
 

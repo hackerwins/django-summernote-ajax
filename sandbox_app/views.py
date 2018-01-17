@@ -23,18 +23,18 @@ class PostFileUploadView(FileUploadView):
 class PostListView(ListView):
     model = Post
     context_object_name = 'posts'
-    template_name = 'sandbox/post_list.html'
+    template_name = 'sandbox_app/post_list.html'
 
 
 class PostDetailView(DetailView):
     model = Post
     context_object_name = 'post'
-    template_name = 'sandbox/post_detail.html'
+    template_name = 'sandbox_app/post_detail.html'
 
 
 class PostCreateView(CreateView):
     model = Post
-    template_name = 'sandbox/post_create.html'
+    template_name = 'sandbox_app/post_create.html'
 
     def get_form_class(self):
         if self.request.method == 'POST':
@@ -58,7 +58,7 @@ class PostCreateView(CreateView):
 
 class PostUpdateView(UpdateView):
     model = Post
-    template_name = 'sandbox/post_update.html'
+    template_name = 'sandbox_app/post_update.html'
 
     def get_form_class(self):
         if self.request.method == 'POST':
@@ -72,5 +72,5 @@ class PostUpdateView(UpdateView):
 class PostDeleteView(DeleteView):
     model = Post
     context_object_name = 'post'
-    template_name = 'sandbox/post_confirm_delete.html'
+    template_name = 'sandbox_app/post_confirm_delete.html'
     success_url = reverse_lazy('post-list')
