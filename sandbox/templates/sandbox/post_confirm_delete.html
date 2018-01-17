@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        <div class="card my-4">
+            <div class="card-header">
+                <h2>{{ post.title }}</h2>
+            </div>
+            <div class="card-body">
+                <form action="" method="post">{% csrf_token %}
+                    <p>Do you really want to delete this post?</p>
+                    <input type="submit" value="Confirm" class="btn-sm btn-danger">
+                </form>
+            </div>
+            <div class="card-footer">
+                <a href="{% url 'post-list' %}" class="btn-sm btn-secondary">List</a>
+                <a href="{% url 'post-update' post.id %}" class="btn-sm btn-info">Edit</a>
+                {% if user.is_superuser %}
+                    <a href="{% url 'admin:sandbox_post_change' post.id %}" class="btn-sm btn-warning">Admin</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

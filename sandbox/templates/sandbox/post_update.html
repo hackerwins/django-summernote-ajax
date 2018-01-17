@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <div class="card my-4">
+            <div class="card-header">
+                <h2>Edit a HTML post</h2>
+            </div>
+            <div class="card-body">
+                {% load crispy_forms_tags %}
+                {% crispy form %}
+            </div>
+        </div>
+        <div id="thumbnail-list" class="row my-4">
+            {% for attachment in post.attachments.all %}
+                <div class="col-lg-2 col-md-3 col-sm-4 mt-2">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <img class="card-img-top" src="{{ attachment.file.url }}"
+                                 width="118" height="68">
+                        </div>
+                        <div class="card-footer text-center">
+                            <a href="#" class="btn-sm btn-danger">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static "css/summernote/summernote-bs4.css" %}">
+{% endblock %}
+
+{% block javascript %}
+    <script src="{% static 'js/summernote/csrf-cookie.js' %}"></script>
+    <script src="{% static "js/summernote/summernote-bs4.min.js" %}"></script>
+    <script src="{% static "js/post-summernote-upload.js" %}"></script>
+{% endblock %}
