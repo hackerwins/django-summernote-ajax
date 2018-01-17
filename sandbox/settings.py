@@ -4,7 +4,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'r7+04!xi%j_nd2kgsc3p86zlpypcbiu&(*o0s0d8224@rdaif-'
+SECRET_KEY = 'f#j8w41o6xx_2!g%y#lv^-us9jht9wb89^5^$=rfsdpi4(%p6-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -25,7 +25,7 @@ INSTALLED_APPS = [
 INSTALLED_APPS += [
     'django_summernote_ajax',
     'crispy_forms',
-    'sandbox',
+    'sandbox_app',
 ]
 
 MIDDLEWARE = [
@@ -97,9 +97,12 @@ USE_TZ = True
 STATIC_URL = '/assets/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'sandbox/assets/')
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'sandbox/static/'),
+    os.path.join(BASE_DIR, 'sandbox_app/static/'),
     os.path.join(BASE_DIR, 'django_summernote_ajax/static/'),
 ]
+
+# Media files (Uploaded files)
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'sandbox/media/')
 

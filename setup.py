@@ -5,10 +5,10 @@ from setuptools import setup, find_packages
 with open(os.path.join(os.path.dirname(__file__), 'README.md')) as readme:
     README = readme.read()
 
-setup(name='tutorial-python-build',
+setup(name='django-summernote-ajax',
       version='0.1',
-      packages=find_packages(exclude=['docs', 'sandbox']),
-      description='A Django Library for jQuery File Upload',
+      packages=find_packages(exclude=['docs', 'sandbox', 'sandbox_app']),
+      description='Django plugin for summernote',
       long_description=README,
       url='https://www.pincoin.info/',
       author='Jonghwa Seo',
