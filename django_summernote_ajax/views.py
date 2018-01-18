@@ -3,11 +3,11 @@ from django.views.generic import View
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import FormMixin
 
-from .forms import AttachmentForm
+from .forms import UploadAttachmentForm
 
 
 class FileUploadView(FormMixin, SingleObjectMixin, View):
-    form_class = AttachmentForm
+    form_class = UploadAttachmentForm
 
     def post(self, request, *args, **kwargs):
         form_class = self.get_form_class()
@@ -32,6 +32,21 @@ class FileUploadView(FormMixin, SingleObjectMixin, View):
 
             data = {"files": files}
 
+            return JsonResponse(data)
+        else:
+            return JsonResponse({
+                'status': 'false',
+                'message': 'Bad Request'
+            }, status=400)
+
+
+class FileDeleteView(FormMixin, SingleObjectMixin, View):
+    def post(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+
+        if form.is_valid():
+            data = {}
             return JsonResponse(data)
         else:
             return JsonResponse({

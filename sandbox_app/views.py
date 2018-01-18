@@ -6,7 +6,9 @@ from django.views.generic.edit import (
     CreateView, UpdateView, DeleteView
 )
 
-from django_summernote_ajax.views import FileUploadView
+from django_summernote_ajax.views import (
+    FileUploadView, FileDeleteView
+)
 from .forms import (
     PostForm, PostAttachmentForm
 )
@@ -15,7 +17,12 @@ from .models import (
 )
 
 
-class PostFileUploadView(FileUploadView):
+class PostAttachmentUploadView(FileUploadView):
+    def get_object(self, queryset=None):
+        return Attachment()
+
+
+class PostAttachmentDeleteView(FileDeleteView):
     def get_object(self, queryset=None):
         return Attachment()
 

@@ -19,7 +19,7 @@ $(document).ready(function () {
                 });
 
                 $.ajax({
-                    url: '/upload',         // Point to django upload handler view
+                    url: '/upload-file',         // Point to django upload handler view
                     type: "post",
                     processData: false,     // file-transfer
                     contentType: false,     // file-transfer
@@ -40,7 +40,8 @@ $(document).ready(function () {
                             '      <img class="card-img-top thumbnail-image" src="' + file.url + '">\n' +
                             '    </div>\n' +
                             '    <div class="card-footer text-center">\n' +
-                            '      <a href="#" class="btn-sm btn-danger">Delete</a>\n' +
+                            '      <a href="#" id="thumbnail-' + file.pk + '"\n' +
+                            '           class="btn-sm btn-danger thumbnail-delete-button">Delete</a>\n' +
                             '    </div>\n' +
                             '  </div>\n' +
                             '</div>');
@@ -53,9 +54,22 @@ $(document).ready(function () {
                         }).appendTo("form");
                     });
                 }).fail(function (jqXHR, textStatus, errorThrown) {
-                    console.log('Failed to upload');
+                    console.error('Failed to upload');
                 });
             }
         }
-    })
+    });
+});
+
+$(document).on('click', '.thumbnail-delete-button', function () {
+    file_pk = $(this).attr('id').split('-')[1];
+
+    $.ajax({
+        url: '/delete-file/' + file_pk,
+        type: "post"
+    }).done(function (data, textStatus, jqXHR) {
+        console.log('Success');
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        console.error('Failed to delete');
+    });
 });

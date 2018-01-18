@@ -6,15 +6,19 @@ from django.urls import (
 )
 
 from sandbox_app.views import (
-    PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView, PostFileUploadView
+    PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView, PostAttachmentUploadView,
+    PostAttachmentDeleteView
 )
 
 urlpatterns = [
     path('',
          PostListView.as_view(), name='home'),
 
-    path('upload',
-         PostFileUploadView.as_view(), name='post-file-upload'),
+    path('upload-file',
+         PostAttachmentUploadView.as_view(), name='post-file-upload'),
+
+    path('delete-file/<int:pk>',
+         PostAttachmentDeleteView.as_view(), name='post-file-delete'),
 
     path('posts',
          PostListView.as_view(), name='post-list'),
