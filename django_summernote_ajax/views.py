@@ -9,30 +9,12 @@ from .forms import (
 class FileUploadView(FormView):
     form_class = UploadAttachmentForm
 
-    def get_model_instance(self, *args, **kwargs):
+    def upload_files(self, *args, **kwargs):
         return None
 
     def form_valid(self, form):
-        files = []
-
-        for file in self.request.FILES.getlist('files'):
-            attachment = self.get_model_instance()
-
-            attachment.file = file
-            attachment.name = file.name
-
-            # TODO: **kwargs?
-            attachment.save()
-
-            files.append({
-                "pk": attachment.pk,
-                "name": file.name,
-                "size": file.size,
-                "url": attachment.file.url
-            })
-
+        files = self.upload_files(uploaded_files=self.request.FILES)
         data = {"files": files}
-
         return JsonResponse(data)
 
     def form_invalid(self, form):

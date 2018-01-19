@@ -18,8 +18,29 @@ from .models import (
 
 
 class PostAttachmentUploadView(FileUploadView):
-    def get_model_instance(self, *args, **kwargs):
-        return Attachment()
+    """
+    This method must be overridden and return JSON file list.
+    """
+    def upload_files(self, *args, **kwargs):
+        uploaded_files = kwargs.pop('uploaded_files', None)
+        files = []
+
+        if uploaded_files:
+            # NOTE: 'files' HTML attribute hard coded
+            for file in uploaded_files.getlist('files'):
+                attachment = Attachment()
+                attachment.file = file
+                attachment.name = file.name
+                attachment.save()
+
+                files.append({
+                    "pk": attachment.pk,
+                    "name": file.name,
+                    "size": file.size,
+                    "url": attachment.file.url
+                })
+
+        return files
 
 
 class PostAttachmentDeleteView(FileDeleteView):
