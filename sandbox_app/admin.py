@@ -13,12 +13,14 @@ class AttachmentInline(admin.StackedInline):
 
 class AttachmentAdmin(admin.ModelAdmin):
     list_display = ('name', 'post', 'file', 'created')
+    ordering = ('-created',)
 
 
 class PostAdmin(admin.ModelAdmin):
     list_display = ('title', 'created')
     form = PostAdminForm
     inlines = [AttachmentInline]
+    ordering = ('-created',)
 
 
 admin.site.register(Post, PostAdmin)
