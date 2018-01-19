@@ -24,7 +24,9 @@ class PostAttachmentUploadView(FileUploadView):
 
 class PostAttachmentDeleteView(FileDeleteView):
     def get_model_instance(self, *args, **kwargs):
-        return Attachment()
+        file_pk = kwargs.pop('file_pk', None)
+        obj = Attachment.objects.get(pk=file_pk)
+        return obj
 
 
 class PostListView(ListView):

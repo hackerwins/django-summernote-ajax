@@ -50,11 +50,12 @@ class FileDeleteView(FormView):
 
     def form_valid(self, form):
         data = {}
-        # TODO: How to retrieve object?
-
+        attachment = self.get_model_instance(file_pk=form.cleaned_data['file_pk'])
+        attachment.delete()
         return JsonResponse(data)
 
     def form_invalid(self, form):
+        print(form)
         return JsonResponse({
             'status': 'false',
             'message': 'Bad Request'

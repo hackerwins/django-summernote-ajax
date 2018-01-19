@@ -17,7 +17,7 @@ urlpatterns = [
     path('upload-file',
          PostAttachmentUploadView.as_view(), name='post-file-upload'),
 
-    path('delete-file/<int:pk>',
+    path('delete-file',
          PostAttachmentDeleteView.as_view(), name='post-file-delete'),
 
     path('posts',

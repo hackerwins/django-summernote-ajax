@@ -27,4 +27,4 @@ class UploadAttachmentForm(forms.Form):
 
 
 class DeleteAttachmentForm(forms.Form):
-    pass
+    file_pk = forms.IntegerField()

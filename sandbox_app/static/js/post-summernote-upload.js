@@ -62,11 +62,10 @@ $(document).ready(function () {
 });
 
 $(document).on('click', '.thumbnail-delete-button', function () {
-    file_pk = $(this).attr('id').split('-')[1];
-
     $.ajax({
-        url: '/delete-file/' + file_pk,
-        type: "post"
+        url: '/delete-file',
+        type: "post",
+        data: {file_pk: $(this).attr('id').split('-')[1]}
     }).done(function (data, textStatus, jqXHR) {
         console.log('Success');
     }).fail(function (jqXHR, textStatus, errorThrown) {
