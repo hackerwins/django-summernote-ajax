@@ -20,7 +20,7 @@ $(document).ready(function () {
 
                 $.ajax({
                     url: '/upload-file',         // Point to django upload handler view
-                    type: "post",
+                    type: 'post',
                     processData: false,     // file-transfer
                     contentType: false,     // file-transfer
                     data: formData
@@ -47,11 +47,11 @@ $(document).ready(function () {
                             '</div>');
 
                         // This hidden field must be sent in order to make a relationship.
-                        $("<input>", {
-                            type: "hidden",
-                            name: "attachments",
+                        $('<input>', {
+                            type: 'hidden',
+                            name: 'attachments',
                             value: file.pk
-                        }).appendTo("form");
+                        }).appendTo('form');
                     });
                 }).fail(function (jqXHR, textStatus, errorThrown) {
                     console.error('Failed to upload');
@@ -68,7 +68,7 @@ $(document).ready(function () {
     $(document).on('click', '.thumbnail-delete-button', function () {
         $.ajax({
             url: '/delete-file',
-            type: "post",
+            type: 'post',
             data: {file_pk: $(this).attr('id').split('-')[1]}
         }).done(function (data, textStatus, jqXHR) {
             $.each(data.files, function (index, file) {
