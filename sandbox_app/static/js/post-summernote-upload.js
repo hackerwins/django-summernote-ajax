@@ -68,7 +68,11 @@ $(document).on('click', '.thumbnail-delete-button', function () {
         data: {file_pk: $(this).attr('id').split('-')[1]}
     }).done(function (data, textStatus, jqXHR) {
         $.each(data.files, function (index, file) {
-            $('#thumbnail-card-' + file.pk).remove()
+            // Remove thumbnail
+            $('#thumbnail-card-' + file.pk).remove();
+
+            // Remove hidden field
+            $('input:hidden[name=attachments][value=' + file.pk +']').remove();
         });
     }).fail(function (jqXHR, textStatus, errorThrown) {
         console.error('Failed to delete');

@@ -119,6 +119,21 @@ class PostUpdateView(UpdateView):
             # Hidden fields and file input are not prepopulated but appended to form by AJAX.
             return PostForm
 
+    def form_valid(self, form):
+        response = super().form_valid(form)
+
+        # Attachments are not related to any post yet.
+        attachments = Attachment.objects.filter(
+            pk__in=form.cleaned_data['attachments'],
+            post__isnull=True,
+        )
+        if attachments:
+            self.object.attachments.set(attachments)
+
+        print(form.cleaned_data['attachments'])
+        print(attachments)
+        return response
+
 
 class PostDeleteView(DeleteView):
     model = Post

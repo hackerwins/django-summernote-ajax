@@ -15,7 +15,7 @@
         </div>
         <div id="thumbnail-list" class="row my-4">
             {% for attachment in post.attachments.all %}
-                <div class="col-lg-2 col-md-3 col-sm-4 mt-2">
+                <div id="thumbnail-card-{{ attachment.pk }}" class="col-lg-2 col-md-3 col-sm-4 mt-2">
                     <div class="card h-100">
                         <div class="card-body">
                             <img class="card-img-top" src="{{ attachment.file.url }}"
