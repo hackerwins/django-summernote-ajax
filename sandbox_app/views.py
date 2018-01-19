@@ -18,12 +18,12 @@ from .models import (
 
 
 class PostAttachmentUploadView(FileUploadView):
-    def get_object(self, queryset=None):
+    def get_model_instance(self, *args, **kwargs):
         return Attachment()
 
 
 class PostAttachmentDeleteView(FileDeleteView):
-    def get_object(self, queryset=None):
+    def get_model_instance(self, *args, **kwargs):
         return Attachment()
 
 

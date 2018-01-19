@@ -1,5 +1,4 @@
 from django.http import JsonResponse
-from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import FormView
 
 from .forms import (
@@ -7,15 +6,17 @@ from .forms import (
 )
 
 
-class FileUploadView(SingleObjectMixin, FormView):
+class FileUploadView(FormView):
     form_class = UploadAttachmentForm
+
+    def get_model_instance(self, *args, **kwargs):
+        return None
 
     def form_valid(self, form):
         files = []
 
         for file in self.request.FILES.getlist('files'):
-            # TODO: dynamically retrieve instance?
-            attachment = self.get_object()
+            attachment = self.get_model_instance()
 
             attachment.file = file
             attachment.name = file.name
@@ -41,8 +42,11 @@ class FileUploadView(SingleObjectMixin, FormView):
         }, status=400)
 
 
-class FileDeleteView(SingleObjectMixin, FormView):
+class FileDeleteView(FormView):
     form_class = DeleteAttachmentForm
+
+    def get_model_instance(self, *args, **kwargs):
+        return None
 
     def form_valid(self, form):
         data = {}
