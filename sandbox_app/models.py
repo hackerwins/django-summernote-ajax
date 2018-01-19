@@ -1,6 +1,7 @@
 import os
 import uuid
 
+from django.core.files.storage import default_storage
 from django.db import models
 from django.urls import reverse
 from django.utils.timezone import datetime
@@ -48,6 +49,7 @@ class Attachment(AbstractAttachment):
     file = models.FileField(
         verbose_name=_('uploaded file'),
         upload_to=upload_directory_path,
+        storage=default_storage,
     )
 
     post = models.ForeignKey(
