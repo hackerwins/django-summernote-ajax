@@ -6,7 +6,7 @@ from django.template.defaultfilters import filesizeformat
 from django.utils.translation import ugettext_lazy as _
 
 
-class AttachmentForm(forms.Form):
+class UploadAttachmentForm(forms.Form):
     files = forms.FileField(widget=forms.ClearableFileInput(
         attrs={'multiple': True}), required=False)
 
@@ -24,3 +24,7 @@ class AttachmentForm(forms.Form):
                 filesizeformat(settings.DSA_MAX_UPLOAD_SIZE), filesizeformat(content.size)))
 
         return content
+
+
+class DeleteAttachmentForm(forms.Form):
+    file_pk = forms.IntegerField()

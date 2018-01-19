@@ -49,5 +49,5 @@ venv
 
 # Sample database and files
 *.sqlite3
-djs_playground/media
-djs_playground/static
+sandbox/media
+sandbox/static

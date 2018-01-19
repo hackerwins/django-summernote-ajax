@@ -1,40 +1,48 @@
 from django.http import JsonResponse
-from django.views.generic import View
-from django.views.generic.detail import SingleObjectMixin
-from django.views.generic.edit import FormMixin
+from django.views.generic.edit import FormView
 
-from .forms import AttachmentForm
+from .forms import (
+    UploadAttachmentForm, DeleteAttachmentForm
+)
 
 
-class FileUploadView(FormMixin, SingleObjectMixin, View):
-    form_class = AttachmentForm
+class FileUploadView(FormView):
+    """Provide a way to show and handle uploaded files in a request."""
+    form_class = UploadAttachmentForm
 
-    def post(self, request, *args, **kwargs):
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
+    def upload_file(self, *args, **kwargs):
+        """Must be overridden"""
+        return None
 
-        files = []
+    def form_valid(self, form):
+        """If the form is valid, return JSON file list after saving them"""
+        data = self.upload_file(uploaded_files=self.request.FILES)
+        return JsonResponse(data)
 
-        if form.is_valid():
-            for file in request.FILES.getlist('files'):
-                attachment = self.get_object()
+    def form_invalid(self, form):
+        """If the form is invalid, return HTTP 400 error"""
+        return JsonResponse({
+            'status': 'false',
+            'message': 'Bad Request'
+        }, status=400)
 
-                attachment.file = file
-                attachment.name = file.name
-                attachment.save(**kwargs)
 
-                files.append({
-                    "pk": attachment.pk,
-                    "name": file.name,
-                    "size": file.size,
-                    "url": attachment.file.url
-                })
+class FileDeleteView(FormView):
+    """Provide a way to show and handle files to be deleted in a request."""
+    form_class = DeleteAttachmentForm
 
-            data = {"files": files}
+    def delete_file(self, *args, **kwargs):
+        """Must be overridden"""
+        return None
 
-            return JsonResponse(data)
-        else:
-            return JsonResponse({
-                'status': 'false',
-                'message': 'Bad Request'
-            }, status=400)
+    def form_valid(self, form):
+        """If the form is valid, return JSON file list after deleting them"""
+        data = self.delete_file(form=form)
+        return JsonResponse(data)
+
+    def form_invalid(self, form):
+        """If the form is invalid, return HTTP 400 error"""
+        return JsonResponse({
+            'status': 'false',
+            'message': 'Bad Request'
+        }, status=400)

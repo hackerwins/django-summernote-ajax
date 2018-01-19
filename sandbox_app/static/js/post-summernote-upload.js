@@ -19,7 +19,7 @@ $(document).ready(function () {
                 });
 
                 $.ajax({
-                    url: '/upload',         // Point to django upload handler view
+                    url: '/upload-file',         // Point to django upload handler view
                     type: "post",
                     processData: false,     // file-transfer
                     contentType: false,     // file-transfer
@@ -34,13 +34,14 @@ $(document).ready(function () {
                         //
                         // Thumbnail image is appended.
                         $('#thumbnail-list').append(
-                            '<div class="col-lg-2 col-md-3 col-sm-4 mt-2">\n' +
+                            '<div id="thumbnail-card-' + file.pk + '" class="col-lg-2 col-md-3 col-sm-4 mt-2">\n' +
                             '  <div class="card h-100">\n' +
                             '    <div class="card-body">\n' +
                             '      <img class="card-img-top thumbnail-image" src="' + file.url + '">\n' +
                             '    </div>\n' +
                             '    <div class="card-footer text-center">\n' +
-                            '      <a href="#" class="btn-sm btn-danger">Delete</a>\n' +
+                            '      <a href="#" id="thumbnail-' + file.pk + '"\n' +
+                            '           class="btn-sm btn-danger thumbnail-delete-button">Delete</a>\n' +
                             '    </div>\n' +
                             '  </div>\n' +
                             '</div>');
@@ -53,9 +54,33 @@ $(document).ready(function () {
                         }).appendTo("form");
                     });
                 }).fail(function (jqXHR, textStatus, errorThrown) {
-                    console.log('Failed to upload');
+                    console.error('Failed to upload');
                 });
             }
         }
-    })
+    });
+
+    $(document).on('click', '.thumbnail-image', function () {
+        // Insert image into the editor when clicked thumbnail images
+        $sn.summernote('insertImage', $(this).attr('src'));
+    });
+
+    $(document).on('click', '.thumbnail-delete-button', function () {
+        $.ajax({
+            url: '/delete-file',
+            type: "post",
+            data: {file_pk: $(this).attr('id').split('-')[1]}
+        }).done(function (data, textStatus, jqXHR) {
+            $.each(data.files, function (index, file) {
+                // Remove thumbnail image itself
+                $('#thumbnail-card-' + file.pk).remove();
+
+                // Remove hidden field (It's saved if not removed)
+                $('input:hidden[name=attachments][value=' + file.pk + ']').remove();
+            });
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            console.error('Failed to delete');
+        });
+    });
 });
+

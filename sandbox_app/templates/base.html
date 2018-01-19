@@ -46,8 +46,8 @@ Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve you
                     <a class="dropdown-item" href="{% url 'post-create' %}">Write</a>
                     {% if user.is_superuser %}
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{% url 'admin:sandbox_post_changelist' %}">Posts</a>
-                        <a class="dropdown-item" href="{% url 'admin:sandbox_attachment_changelist' %}">Attachments</a>
+                        <a class="dropdown-item" href="{% url 'admin:sandbox_app_post_changelist' %}">Posts</a>
+                        <a class="dropdown-item" href="{% url 'admin:sandbox_app_attachment_changelist' %}">Attachments</a>
                     {% endif %}
                 </div>
             </li>
