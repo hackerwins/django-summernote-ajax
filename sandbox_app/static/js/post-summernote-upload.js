@@ -34,7 +34,7 @@ $(document).ready(function () {
                         //
                         // Thumbnail image is appended.
                         $('#thumbnail-list').append(
-                            '<div class="col-lg-2 col-md-3 col-sm-4 mt-2">\n' +
+                            '<div id="thumbnail-card-' + file.pk + '" class="col-lg-2 col-md-3 col-sm-4 mt-2">\n' +
                             '  <div class="card h-100">\n' +
                             '    <div class="card-body">\n' +
                             '      <img class="card-img-top thumbnail-image" src="' + file.url + '">\n' +
@@ -67,7 +67,9 @@ $(document).on('click', '.thumbnail-delete-button', function () {
         type: "post",
         data: {file_pk: $(this).attr('id').split('-')[1]}
     }).done(function (data, textStatus, jqXHR) {
-        console.log('Success');
+        $.each(data.files, function (index, file) {
+            $('#thumbnail-card-' + file.pk).remove()
+        });
     }).fail(function (jqXHR, textStatus, errorThrown) {
         console.error('Failed to delete');
     });
