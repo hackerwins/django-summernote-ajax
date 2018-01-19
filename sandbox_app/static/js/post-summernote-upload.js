@@ -59,22 +59,28 @@ $(document).ready(function () {
             }
         }
     });
-});
 
-$(document).on('click', '.thumbnail-delete-button', function () {
-    $.ajax({
-        url: '/delete-file',
-        type: "post",
-        data: {file_pk: $(this).attr('id').split('-')[1]}
-    }).done(function (data, textStatus, jqXHR) {
-        $.each(data.files, function (index, file) {
-            // Remove thumbnail
-            $('#thumbnail-card-' + file.pk).remove();
+    $(document).on('click', '.thumbnail-image', function () {
+        // Insert image into the editor when clicked thumbnail images
+        $sn.summernote('insertImage', $(this).attr('src'));
+    });
 
-            // Remove hidden field
-            $('input:hidden[name=attachments][value=' + file.pk +']').remove();
+    $(document).on('click', '.thumbnail-delete-button', function () {
+        $.ajax({
+            url: '/delete-file',
+            type: "post",
+            data: {file_pk: $(this).attr('id').split('-')[1]}
+        }).done(function (data, textStatus, jqXHR) {
+            $.each(data.files, function (index, file) {
+                // Remove thumbnail image itself
+                $('#thumbnail-card-' + file.pk).remove();
+
+                // Remove hidden field (It's saved if not removed)
+                $('input:hidden[name=attachments][value=' + file.pk + ']').remove();
+            });
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            console.error('Failed to delete');
         });
-    }).fail(function (jqXHR, textStatus, errorThrown) {
-        console.error('Failed to delete');
     });
 });
+
