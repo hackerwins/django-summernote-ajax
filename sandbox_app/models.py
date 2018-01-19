@@ -1,8 +1,22 @@
+import os
+import uuid
+
 from django.db import models
 from django.urls import reverse
+from django.utils.timezone import datetime
 from django.utils.translation import ugettext_lazy as _
 
 from django_summernote_ajax.models import AbstractAttachment
+
+
+def upload_directory_path(instance, filename):
+    """
+    Determine directory path for uploaded files at runtime.
+    """
+    ext = filename.split('.')[-1]
+    filename = "%s.%s" % (uuid.uuid4(), ext)
+    today = datetime.now().strftime('%Y-%m-%d')
+    return os.path.join('attachments', today, filename)
 
 
 class Post(models.Model):
@@ -31,6 +45,11 @@ class Post(models.Model):
 
 
 class Attachment(AbstractAttachment):
+    file = models.FileField(
+        verbose_name=_('uploaded file'),
+        upload_to=upload_directory_path,
+    )
+
     post = models.ForeignKey(
         'Post',
         verbose_name=_('post'),
