@@ -18,16 +18,17 @@ from .models import (
 
 
 class PostAttachmentUploadView(FileUploadView):
-    """
-    This method must be overridden and return JSON file list.
-    """
-    def upload_files(self, *args, **kwargs):
+    def upload_file(self, *args, **kwargs):
+        """
+        This method must be overridden to perform uploading files and return JSON file list.
+        """
         uploaded_files = kwargs.pop('uploaded_files', None)
         files = []
 
         if uploaded_files:
-            # NOTE: 'files' HTML attribute hard coded
+            # NOTE: Change HTML attribute name - `files`
             for file in uploaded_files.getlist('files'):
+                # NOTE: Attachment class must inherit AbstractAttachment
                 attachment = Attachment()
                 attachment.file = file
                 attachment.name = file.name
@@ -40,14 +41,34 @@ class PostAttachmentUploadView(FileUploadView):
                     "url": attachment.file.url
                 })
 
-        return files
+        # NOTE: Change JSON key name - `files`
+        return {"files": files}
 
 
 class PostAttachmentDeleteView(FileDeleteView):
-    def get_model_instance(self, *args, **kwargs):
-        file_pk = kwargs.pop('file_pk', None)
-        obj = Attachment.objects.get(pk=file_pk)
-        return obj
+    def delete_file(self, *args, **kwargs):
+        """
+        This method must be overridden to perform deleting files and return JSON file list.
+        """
+        form = kwargs.pop('form', None)
+
+        files = []
+
+        if form:
+            # NOTE: Change POST form data name - `file_pk`
+            # NOTE: Attachment class must inherit AbstractAttachment.
+            attachment = Attachment.objects.get(pk=form.cleaned_data['file_pk'])
+
+            # NOTE: Attachment must be asynchronously deleted by cron.
+            attachment.post = None
+            attachment.save()
+
+            files.append({
+                "pk": attachment.pk,
+            })
+
+        # NOTE: Change JSON key name - `files`
+        return {"files": files}
 
 
 class PostListView(ListView):

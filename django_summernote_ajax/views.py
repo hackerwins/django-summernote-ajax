@@ -7,17 +7,20 @@ from .forms import (
 
 
 class FileUploadView(FormView):
+    """Provide a way to show and handle uploaded files in a request."""
     form_class = UploadAttachmentForm
 
-    def upload_files(self, *args, **kwargs):
+    def upload_file(self, *args, **kwargs):
+        """Must be overridden"""
         return None
 
     def form_valid(self, form):
-        files = self.upload_files(uploaded_files=self.request.FILES)
-        data = {"files": files}
+        """If the form is valid, return JSON file list after saving them"""
+        data = self.upload_file(uploaded_files=self.request.FILES)
         return JsonResponse(data)
 
     def form_invalid(self, form):
+        """If the form is invalid, return HTTP 400 error"""
         return JsonResponse({
             'status': 'false',
             'message': 'Bad Request'
@@ -25,19 +28,20 @@ class FileUploadView(FormView):
 
 
 class FileDeleteView(FormView):
+    """Provide a way to show and handle files to be deleted in a request."""
     form_class = DeleteAttachmentForm
 
-    def get_model_instance(self, *args, **kwargs):
+    def delete_file(self, *args, **kwargs):
+        """Must be overridden"""
         return None
 
     def form_valid(self, form):
-        data = {}
-        attachment = self.get_model_instance(file_pk=form.cleaned_data['file_pk'])
-        attachment.delete()
+        """If the form is valid, return JSON file list after deleting them"""
+        data = self.delete_file(form=form)
         return JsonResponse(data)
 
     def form_invalid(self, form):
-        print(form)
+        """If the form is invalid, return HTTP 400 error"""
         return JsonResponse({
             'status': 'false',
             'message': 'Bad Request'
