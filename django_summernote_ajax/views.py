@@ -1,55 +1,57 @@
 from django.http import JsonResponse
-from django.views.generic import View
 from django.views.generic.detail import SingleObjectMixin
-from django.views.generic.edit import FormMixin
+from django.views.generic.edit import FormView
 
-from .forms import UploadAttachmentForm
+from .forms import (
+    UploadAttachmentForm, DeleteAttachmentForm
+)
 
 
-class FileUploadView(FormMixin, SingleObjectMixin, View):
+class FileUploadView(SingleObjectMixin, FormView):
     form_class = UploadAttachmentForm
 
-    def post(self, request, *args, **kwargs):
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-
+    def form_valid(self, form):
         files = []
 
-        if form.is_valid():
-            for file in request.FILES.getlist('files'):
-                attachment = self.get_object()
+        for file in self.request.FILES.getlist('files'):
+            # TODO: dynamically retrieve instance?
+            attachment = self.get_object()
 
-                attachment.file = file
-                attachment.name = file.name
-                attachment.save(**kwargs)
+            attachment.file = file
+            attachment.name = file.name
 
-                files.append({
-                    "pk": attachment.pk,
-                    "name": file.name,
-                    "size": file.size,
-                    "url": attachment.file.url
-                })
+            # TODO: **kwargs?
+            attachment.save()
 
-            data = {"files": files}
+            files.append({
+                "pk": attachment.pk,
+                "name": file.name,
+                "size": file.size,
+                "url": attachment.file.url
+            })
 
-            return JsonResponse(data)
-        else:
-            return JsonResponse({
-                'status': 'false',
-                'message': 'Bad Request'
-            }, status=400)
+        data = {"files": files}
+
+        return JsonResponse(data)
+
+    def form_invalid(self, form):
+        return JsonResponse({
+            'status': 'false',
+            'message': 'Bad Request'
+        }, status=400)
 
 
-class FileDeleteView(FormMixin, SingleObjectMixin, View):
-    def post(self, request, *args, **kwargs):
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
+class FileDeleteView(SingleObjectMixin, FormView):
+    form_class = DeleteAttachmentForm
 
-        if form.is_valid():
-            data = {}
-            return JsonResponse(data)
-        else:
-            return JsonResponse({
-                'status': 'false',
-                'message': 'Bad Request'
-            }, status=400)
+    def form_valid(self, form):
+        data = {}
+        # TODO: How to retrieve object?
+
+        return JsonResponse(data)
+
+    def form_invalid(self, form):
+        return JsonResponse({
+            'status': 'false',
+            'message': 'Bad Request'
+        }, status=400)
