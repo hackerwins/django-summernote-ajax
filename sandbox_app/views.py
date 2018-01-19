@@ -88,11 +88,13 @@ class PostCreateView(CreateView):
     template_name = 'sandbox_app/post_create.html'
 
     def get_form_class(self):
+        """
+        Return different form when validation is required.
+        Hidden fields are not prepopulated but appended to form by AJAX.
+        """
         if self.request.method == 'POST':
-            # Hidden fields for attachments must be validated.
             return PostAttachmentForm
         else:
-            # Hidden fields and file input are not prepopulated but appended to form by AJAX.
             return PostForm
 
     def form_valid(self, form):
@@ -103,7 +105,10 @@ class PostCreateView(CreateView):
             pk__in=form.cleaned_data['attachments'],
             post__isnull=True,
         )
-        self.object.attachments.set(attachments)
+
+        if attachments:
+            self.object.attachments.set(attachments)
+
         return response
 
 
@@ -112,11 +117,13 @@ class PostUpdateView(UpdateView):
     template_name = 'sandbox_app/post_update.html'
 
     def get_form_class(self):
+        """
+        Return different form when validation is required.
+        Hidden fields are not prepopulated but appended to form by AJAX.
+        """
         if self.request.method == 'POST':
-            # Hidden fields for attachments must be validated.
             return PostAttachmentForm
         else:
-            # Hidden fields and file input are not prepopulated but appended to form by AJAX.
             return PostForm
 
     def form_valid(self, form):
@@ -127,11 +134,10 @@ class PostUpdateView(UpdateView):
             pk__in=form.cleaned_data['attachments'],
             post__isnull=True,
         )
-        if attachments:
-            self.object.attachments.set(attachments)
 
-        print(form.cleaned_data['attachments'])
-        print(attachments)
+        if attachments:
+            attachments.update(post=self.object)
+
         return response
 
 
