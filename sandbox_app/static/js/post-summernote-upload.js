@@ -14,16 +14,29 @@ $(document).ready(function () {
             onImageUpload: function (files) {
                 var formData = new FormData();
 
-                $.each(files, function (index, file) {
-                    formData.append('files', file);
-                });
-
                 $.ajax({
-                    url: '/upload-file',         // Point to django upload handler view
+                    url: '/upload-file',    // Point to django upload handler view
                     type: 'post',
                     processData: false,     // file-transfer
                     contentType: false,     // file-transfer
-                    data: formData
+                    data: formData,
+                    beforeSend: function (xhr, settings) {
+                        if ('beforeSend' in $.ajaxSettings) {
+                            // Set CSRF token by calling default `beforeSend`
+                            $.ajaxSettings.beforeSend(xhr, settings);
+
+                            // Construct form data with each file
+                            $.each(files, function (index, file) {
+                                formData.append('files', file);
+
+                                // Check if maximum file size exceeds
+                                if (file.size > 2097152) {
+                                    console.error('Maximum file size exceeded.');
+                                    xhr.abort();
+                                }
+                            });
+                        }
+                    }
                 }).done(function (data, textStatus, jqXHR) {
                     $.each(data.files, function (index, file) {
                         // Insert image into the editor
@@ -32,7 +45,7 @@ $(document).ready(function () {
                         //
                         // YOU MUST IMPLEMENT YOUR OWN CODE HERE:
                         //
-                        // Thumbnail image is appended.
+                        // Append thumbnail images at the bottom.
                         $('#thumbnail-list').append(
                             '<div id="thumbnail-card-' + file.uid + '" class="col-lg-2 col-md-3 col-sm-4 mt-2">\n' +
                             '  <div class="card h-100">\n' +
@@ -46,7 +59,7 @@ $(document).ready(function () {
                             '  </div>\n' +
                             '</div>');
 
-                        // This hidden field must be sent in order to make a relationship.
+                        // Add hidden fields in order to make a relationship.
                         $('<input>', {
                             type: 'hidden',
                             name: 'attachments',
