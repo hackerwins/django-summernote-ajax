@@ -12,7 +12,7 @@ class AbstractAttachment(models.Model):
 
     file = models.FileField(
         verbose_name=_('uploaded file'),
-        upload_to="attachment",
+        upload_to="attachments",
     )
 
     created = models.DateTimeField(
