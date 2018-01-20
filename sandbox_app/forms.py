@@ -22,16 +22,10 @@ class PostForm(forms.ModelForm):
 
 
 class PostAttachmentForm(PostForm):
-    attachments = forms.CharField(widget=forms.HiddenInput(), required=False)
+    attachments = forms.UUIDField(widget=forms.HiddenInput(), required=False)
 
     def clean_attachments(self):
-        data = self.data.getlist('attachments')
-
-        # TODO: max length check
-        # if not data and not all(isinstance(item, int) for item in data):
-        #    raise forms.ValidationError("PK must be integers.")
-
-        return data
+        return self.data.getlist('attachments')
 
 
 class PostAdminForm(forms.ModelForm):
