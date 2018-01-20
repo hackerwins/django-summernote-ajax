@@ -22,13 +22,14 @@ class PostForm(forms.ModelForm):
 
 
 class PostAttachmentForm(PostForm):
-    attachments = forms.IntegerField(widget=forms.HiddenInput(), required=False)
+    attachments = forms.CharField(widget=forms.HiddenInput(), required=False)
 
     def clean_attachments(self):
         data = self.data.getlist('attachments')
 
-        if not data and not all(isinstance(item, int) for item in data):
-            raise forms.ValidationError("PK must be integers.")
+        # TODO: max length check
+        # if not data and not all(isinstance(item, int) for item in data):
+        #    raise forms.ValidationError("PK must be integers.")
 
         return data
 

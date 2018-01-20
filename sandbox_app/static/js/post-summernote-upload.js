@@ -34,13 +34,13 @@ $(document).ready(function () {
                         //
                         // Thumbnail image is appended.
                         $('#thumbnail-list').append(
-                            '<div id="thumbnail-card-' + file.pk + '" class="col-lg-2 col-md-3 col-sm-4 mt-2">\n' +
+                            '<div id="thumbnail-card-' + file.uid + '" class="col-lg-2 col-md-3 col-sm-4 mt-2">\n' +
                             '  <div class="card h-100">\n' +
                             '    <div class="card-body">\n' +
                             '      <img class="card-img-top thumbnail-image" src="' + file.url + '">\n' +
                             '    </div>\n' +
                             '    <div class="card-footer text-center">\n' +
-                            '      <a href="#" id="thumbnail-' + file.pk + '"\n' +
+                            '      <a href="#" id="thumbnail-' + file.uid + '"\n' +
                             '           class="btn-sm btn-danger thumbnail-delete-button">Delete</a>\n' +
                             '    </div>\n' +
                             '  </div>\n' +
@@ -50,7 +50,7 @@ $(document).ready(function () {
                         $('<input>', {
                             type: 'hidden',
                             name: 'attachments',
-                            value: file.pk
+                            value: file.uid
                         }).appendTo('form');
                     });
                 }).fail(function (jqXHR, textStatus, errorThrown) {
@@ -66,17 +66,19 @@ $(document).ready(function () {
     });
 
     $(document).on('click', '.thumbnail-delete-button', function () {
+        var uid = $(this).attr('id').split('thumbnail-')[1];
+
         $.ajax({
             url: '/delete-file',
             type: 'post',
-            data: {file_pk: $(this).attr('id').split('-')[1]}
+            data: {uid: uid}
         }).done(function (data, textStatus, jqXHR) {
             $.each(data.files, function (index, file) {
                 // Remove thumbnail image itself
-                $('#thumbnail-card-' + file.pk).remove();
+                $('#thumbnail-card-' + file.uid).remove();
 
                 // Remove hidden field (It's saved if not removed)
-                $('input:hidden[name=attachments][value=' + file.pk + ']').remove();
+                $('input:hidden[name=attachments][value=' + file.uid + ']').remove();
             });
         }).fail(function (jqXHR, textStatus, errorThrown) {
             console.error('Failed to delete');

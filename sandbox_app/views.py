@@ -35,7 +35,7 @@ class PostAttachmentUploadView(FileUploadView):
                 attachment.save()
 
                 files.append({
-                    "pk": attachment.pk,
+                    "uid": attachment.uid,
                     "name": file.name,
                     "size": file.size,
                     "url": attachment.file.url
@@ -55,16 +55,15 @@ class PostAttachmentDeleteView(FileDeleteView):
         files = []
 
         if form:
-            # NOTE: Change POST form data name - `file_pk`
             # NOTE: Attachment class must inherit AbstractAttachment.
-            attachment = Attachment.objects.get(pk=form.cleaned_data['file_pk'])
+            attachment = Attachment.objects.get(uid=form.cleaned_data['uid'])
 
             # NOTE: Attachment must be asynchronously deleted by cron.
             attachment.post = None
             attachment.save()
 
             files.append({
-                "pk": attachment.pk,
+                "uid": attachment.uid,
             })
 
         # NOTE: Change JSON key name - `files`
@@ -102,13 +101,12 @@ class PostCreateView(CreateView):
 
         # Attachments are not related to any post yet.
         attachments = Attachment.objects.filter(
-            pk__in=form.cleaned_data['attachments'],
+            uid__in=form.cleaned_data['attachments'],
             post__isnull=True,
         )
 
         if attachments:
             self.object.attachments.set(attachments)
-
         return response
 
 
@@ -131,7 +129,7 @@ class PostUpdateView(UpdateView):
 
         # Attachments are not related to any post yet.
         attachments = Attachment.objects.filter(
-            pk__in=form.cleaned_data['attachments'],
+            uid__in=form.cleaned_data['attachments'],
             post__isnull=True,
         )
 
