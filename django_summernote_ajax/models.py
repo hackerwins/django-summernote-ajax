@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
@@ -8,6 +10,14 @@ class AbstractAttachment(models.Model):
         null=True,
         blank=True,
         verbose_name=_('file name'),
+    )
+
+    # PK is a private identifier
+    uid = models.UUIDField(
+        verbose_name=_('public identifier'),
+        unique=True,
+        default=uuid.uuid4,
+        editable=False,
     )
 
     file = models.FileField(
