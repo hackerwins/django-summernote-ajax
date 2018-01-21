@@ -1,6 +1,8 @@
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from django import forms
+from django.conf import settings
+from django.utils.translation import ugettext_lazy as _
 
 from django_summernote_ajax.widgets import SummernoteWidget
 from .models import Post
@@ -25,7 +27,14 @@ class PostAttachmentForm(PostForm):
     attachments = forms.UUIDField(widget=forms.HiddenInput(), required=False)
 
     def clean_attachments(self):
-        return self.data.getlist('attachments')
+        data = self.data.getlist('attachments')
+
+        count = self.instance.attachments.count() if self.instance else 0
+
+        if count + len(data) > settings.POST_MAX_FILE_COUNT:
+            raise forms.ValidationError(_('Maximum number of files exceeded.'))
+
+        return data
 
 
 class PostAdminForm(forms.ModelForm):

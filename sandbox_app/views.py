@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.urls import reverse_lazy
 from django.views.generic import (
     ListView, DetailView
@@ -100,15 +99,15 @@ class PostCreateView(CreateView):
     def form_valid(self, form):
         response = super().form_valid(form)
 
-        # Attachments are not related to any post yet.
+        # Retrieve attachments not related to any post yet.
         attachments = Attachment.objects.filter(
             uid__in=form.cleaned_data['attachments'],
             post__isnull=True,
         )
 
-        if attachments \
-                and len(attachments) <= settings.POST_MAX_FILE_COUNT:
+        if attachments:
             self.object.attachments.set(attachments)
+
         return response
 
 
@@ -129,14 +128,13 @@ class PostUpdateView(UpdateView):
     def form_valid(self, form):
         response = super().form_valid(form)
 
-        # Attachments are not related to any post yet.
+        # Retrieve attachments not related to any post yet.
         attachments = Attachment.objects.filter(
             uid__in=form.cleaned_data['attachments'],
             post__isnull=True,
         )
 
-        if attachments \
-                and self.object.attachments.count() + len(attachments) <= settings.POST_MAX_FILE_COUNT:
+        if attachments:
             attachments.update(post=self.object)
 
         return response
