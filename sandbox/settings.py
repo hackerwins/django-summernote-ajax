@@ -122,4 +122,4 @@ DSA_MAX_UPLOAD_SIZE = 2097152
 POST_MAX_FILE_COUNT = 10
 
 # Celery / RabbitMQ
-CELERY_BROKER_URL = 'amqp://guest:guest@localhost//'
+CELERY_BROKER_URL = 'amqp://localhost//'
