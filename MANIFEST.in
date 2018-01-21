@@ -1,0 +1,4 @@
+include LICENSE
+include README.md
+recursive-include django_summernote_ajax/static *
+recursive-include django_summernote_ajax/templates *

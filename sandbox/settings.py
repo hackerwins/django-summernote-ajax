@@ -120,3 +120,6 @@ DSA_FILE_EXTENSIONS = ['jpg', 'jpeg', 'gif', 'png']
 DSA_MAX_UPLOAD_SIZE = 2097152
 # The maximum number of uploaded files
 POST_MAX_FILE_COUNT = 10
+
+# Celery / RabbitMQ
+CELERY_BROKER_URL = 'amqp://localhost//'
