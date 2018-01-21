@@ -22,16 +22,25 @@ $(document).ready(function () {
                     data: formData,
                     beforeSend: function (xhr, settings) {
                         if ('beforeSend' in $.ajaxSettings) {
-                            // Set CSRF token by calling default `beforeSend`
+                            // Set CSRF token by calling default `beforeSend`.
                             $.ajaxSettings.beforeSend(xhr, settings);
 
-                            // Construct form data with each file
+                            // Get the number of thumbnails.
+                            var file_count = $('#thumbnail-list > div').length;
+
+                            // Construct form data with each file.
                             $.each(files, function (index, file) {
                                 formData.append('files', file);
 
-                                // Check if maximum file size exceeds
+                                // Check if maximum file size exceeds.
                                 if (file.size > 2097152) {
                                     console.error('Maximum file size exceeded.');
+                                    xhr.abort();
+                                }
+
+                                // Limit maximum number of files.
+                                if (++file_count > 10) {
+                                    console.error('Maximum number of files exceeded.');
                                     xhr.abort();
                                 }
                             });
@@ -87,10 +96,10 @@ $(document).ready(function () {
             data: {uid: uid}
         }).done(function (data, textStatus, jqXHR) {
             $.each(data.files, function (index, file) {
-                // Remove thumbnail image itself
+                // Remove thumbnail image itself.
                 $('#thumbnail-card-' + file.uid).remove();
 
-                // Remove hidden field (It's saved if not removed)
+                // Remove hidden field (It's saved if not removed).
                 $('input:hidden[name=attachments][value=' + file.uid + ']').remove();
             });
         }).fail(function (jqXHR, textStatus, errorThrown) {
