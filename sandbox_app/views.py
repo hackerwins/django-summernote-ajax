@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.urls import reverse_lazy
 from django.views.generic import (
     ListView, DetailView
@@ -105,7 +106,8 @@ class PostCreateView(CreateView):
             post__isnull=True,
         )
 
-        if attachments:
+        if attachments \
+                and len(attachments) <= settings.POST_MAX_FILE_COUNT:
             self.object.attachments.set(attachments)
         return response
 
@@ -133,7 +135,8 @@ class PostUpdateView(UpdateView):
             post__isnull=True,
         )
 
-        if attachments:
+        if attachments \
+                and self.object.attachments.count() + len(attachments) <= settings.POST_MAX_FILE_COUNT:
             attachments.update(post=self.object)
 
         return response

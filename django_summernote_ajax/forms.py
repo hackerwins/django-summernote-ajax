@@ -27,4 +27,4 @@ class UploadAttachmentForm(forms.Form):
 
 
 class DeleteAttachmentForm(forms.Form):
-    uid = forms.CharField()
+    uid = forms.UUIDField()
