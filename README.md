@@ -22,6 +22,7 @@ for library
 for sandbox demo
 * django-crispy-forms==1.7.0
 * Pillow==5.0.0
+* celery==4.1.0
 
 # License
 MIT

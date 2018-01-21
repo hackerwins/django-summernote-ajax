@@ -1,12 +1,14 @@
 import os
 
-from setuptools import setup, find_packages
+from setuptools import (
+    setup, find_packages
+)
 
 with open(os.path.join(os.path.dirname(__file__), 'README.md')) as readme:
     README = readme.read()
 
 setup(name='django-summernote-ajax',
-      version='0.1',
+      version='0.0.1',
       packages=find_packages(exclude=['docs', 'sandbox', 'sandbox_app']),
       description='Django plugin for summernote',
       long_description=README,
@@ -21,8 +23,9 @@ setup(name='django-summernote-ajax',
           'Intended Audience :: Developers',
           'Topic :: Software Development :: Build Tools',
           'License :: OSI Approved :: MIT License',
-          'Programming Language :: Python :: 2',
-          'Programming Language :: Python :: 2.7',
+          'Framework :: Django :: 1.8',
+          'Framework :: Django :: 1.11',
+          'Framework :: Django :: 2.0',
           'Programming Language :: Python :: 3',
           'Programming Language :: Python :: 3.4',
           'Programming Language :: Python :: 3.5',
@@ -30,6 +33,7 @@ setup(name='django-summernote-ajax',
       ],
 
       install_requires=[
+          'Django',
       ],
       setup_requires=[
       ],
