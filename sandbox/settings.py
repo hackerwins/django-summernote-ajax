@@ -118,3 +118,5 @@ DSA_CONTENT_TYPES = ['image', 'video']
 DSA_FILE_EXTENSIONS = ['jpg', 'jpeg', 'gif', 'png']
 # The size, in bytes, of the uploaded file. (default: 2MB)
 DSA_MAX_UPLOAD_SIZE = 2097152
+
+POST_MAX_FILE_COUNT = 10
