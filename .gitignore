@@ -51,3 +51,4 @@ venv
 *.sqlite3
 sandbox/media
 sandbox/static
+htmlcov/
