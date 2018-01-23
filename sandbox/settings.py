@@ -112,12 +112,13 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Django Summernote Ajax Settings
 
-# The content-type header uploaded with the file (e.g. text/plain or application/pdf)
+# The content-type header uploaded with the file (default: ['image', 'video'])
 DSA_CONTENT_TYPES = ['image', 'video']
-# The allowed file extensions
+# The allowed file extensions (default: ['jpg', 'jpeg', 'gif', 'png'])
 DSA_FILE_EXTENSIONS = ['jpg', 'jpeg', 'gif', 'png']
 # The size, in bytes, of the uploaded file (default: 2MB)
 DSA_MAX_UPLOAD_SIZE = 2097152
+
 # The maximum number of uploaded files
 POST_MAX_FILE_COUNT = 10
 
