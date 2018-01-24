@@ -2,6 +2,10 @@ $(document).ready(function () {
     // Select summernote container (div or textarea)
     var $sn = $('#id_body');
 
+    // Check if input data was changed
+    var dirty = false;
+    var submitted = false;
+
     $sn.summernote({
         placeholder: 'Please, type your message',
         tabsize: 2,
@@ -10,6 +14,9 @@ $(document).ready(function () {
             onInit: function () {
                 $nEditor = $sn.next();
                 $nImageInput = $nEditor.find('.note-image-input');
+            },
+            onChange: function (contents, $editable) {
+                dirty = true;
             },
             onImageUpload: function (files) {
                 var formData = new FormData();
@@ -107,20 +114,18 @@ $(document).ready(function () {
         });
     });
 
-    var dirty = false;
-
     $('form :input').change(function () {
         dirty = true;
     });
 
-    $(window).bind('beforeunload', function () {
-        if (dirty) {
+    $(window).on('beforeunload', function () {
+        if (dirty && !submitted) {
             return 'You have unsaved changes, are you sure you want to discard them?';
         }
     });
 
-    $('form').bind('submit', function () {
-        dirty = false;
+    $('form').on('submit', function () {
+        submitted = true;
         return true;
     });
 });
