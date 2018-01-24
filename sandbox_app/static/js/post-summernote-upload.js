@@ -106,5 +106,21 @@ $(document).ready(function () {
             console.error('Failed to delete');
         });
     });
-});
 
+    var dirty = false;
+
+    $('form :input').change(function () {
+        dirty = true;
+    });
+
+    $(window).bind('beforeunload', function () {
+        if (dirty) {
+            return 'You have unsaved changes, are you sure you want to discard them?';
+        }
+    });
+
+    $('form').bind('submit', function () {
+        dirty = false;
+        return true;
+    });
+});
