@@ -118,14 +118,13 @@ $(document).ready(function () {
         dirty = true;
     });
 
+    $('form').on('submit', function () {
+        submitted = true;
+    });
+
     $(window).on('beforeunload', function () {
         if (dirty && !submitted) {
             return 'You have unsaved changes, are you sure you want to discard them?';
         }
-    });
-
-    $('form').on('submit', function () {
-        submitted = true;
-        return true;
     });
 });
