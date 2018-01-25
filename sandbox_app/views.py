@@ -106,6 +106,10 @@ class PostCreateView(LoginRequiredMixin, CreateView):
             return PostForm
 
     def form_valid(self, form):
+        form.instance.author = self.request.user
+
+        # NOTE: Author has to be set before `form_valid()` which saves Post model instance.
+        # Then, `self.object` is available in order to save attachments.
         response = super().form_valid(form)
 
         # Retrieve attachments not related to any post yet.
