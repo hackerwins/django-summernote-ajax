@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.contrib.admin.filters import SimpleListFilter
 
+from . import settings as sandbox_app_settings
 from .forms import PostAdminForm
 from .models import (
     Attachment, Post
@@ -36,6 +37,7 @@ class PostNullFilterSpec(NullFilterSpec):
 class AttachmentInline(admin.StackedInline):
     model = Attachment
     extra = 2
+    max_num = sandbox_app_settings.POST_MAX_FILE_COUNT
 
 
 class AttachmentAdmin(admin.ModelAdmin):
