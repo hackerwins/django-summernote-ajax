@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import (
     ListView, DetailView
@@ -17,7 +18,10 @@ from .models import (
 )
 
 
-class PostAttachmentUploadView(FileUploadView):
+class PostAttachmentUploadView(LoginRequiredMixin, FileUploadView):
+    login_url = '/admin/login'
+    redirect_field_name = '/admin'
+
     def upload_file(self, *args, **kwargs):
         """
         This method must be overridden to perform uploading files and return JSON file list.
@@ -45,7 +49,10 @@ class PostAttachmentUploadView(FileUploadView):
         return {"files": files}
 
 
-class PostAttachmentDeleteView(FileDeleteView):
+class PostAttachmentDeleteView(LoginRequiredMixin, FileDeleteView):
+    login_url = '/admin/login'
+    redirect_field_name = '/admin'
+
     def delete_file(self, *args, **kwargs):
         """
         This method must be overridden to perform deleting files and return JSON file list.
@@ -82,9 +89,11 @@ class PostDetailView(DetailView):
     template_name = 'sandbox_app/post_detail.html'
 
 
-class PostCreateView(CreateView):
+class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     template_name = 'sandbox_app/post_create.html'
+    login_url = '/admin/login'
+    redirect_field_name = '/admin'
 
     def get_form_class(self):
         """
@@ -111,9 +120,11 @@ class PostCreateView(CreateView):
         return response
 
 
-class PostUpdateView(UpdateView):
+class PostUpdateView(LoginRequiredMixin, UpdateView):
     model = Post
     template_name = 'sandbox_app/post_update.html'
+    login_url = '/admin/login'
+    redirect_field_name = '/admin'
 
     def get_form_class(self):
         """
@@ -140,8 +151,10 @@ class PostUpdateView(UpdateView):
         return response
 
 
-class PostDeleteView(DeleteView):
+class PostDeleteView(LoginRequiredMixin, DeleteView):
     model = Post
     context_object_name = 'post'
     template_name = 'sandbox_app/post_confirm_delete.html'
     success_url = reverse_lazy('post-list')
+    login_url = '/admin/login'
+    redirect_field_name = '/admin'
