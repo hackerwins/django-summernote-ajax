@@ -63,7 +63,7 @@ class PostAttachmentDeleteView(LoginRequiredMixin, FileDeleteView):
 
         files = []
 
-        if form:
+        if form and user:
             # NOTE: Attachment class must inherit AbstractAttachment and asynchronously deleted by cron.
             attachment = Attachment.objects.select_related('post__author').get(uid=form.cleaned_data['uid'])
 
