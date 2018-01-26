@@ -37,7 +37,7 @@ class FileDeleteView(FormView):
 
     def form_valid(self, form):
         """If the form is valid, return JSON file list after deleting them"""
-        data = self.delete_file(form=form)
+        data = self.delete_file(form=form, user=self.request.user)
         return JsonResponse(data)
 
     def form_invalid(self, form):
