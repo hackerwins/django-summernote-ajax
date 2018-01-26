@@ -59,16 +59,17 @@ class PostAttachmentDeleteView(LoginRequiredMixin, FileDeleteView):
         This method must be overridden to perform deleting files and return JSON file list.
         """
         form = kwargs.pop('form', None)
+        user = kwargs.pop('user', None)
 
         files = []
 
         if form:
-            # NOTE: Attachment class must inherit AbstractAttachment.
-            attachment = Attachment.objects.get(uid=form.cleaned_data['uid'])
+            # NOTE: Attachment class must inherit AbstractAttachment and asynchronously deleted by cron.
+            attachment = Attachment.objects.select_related('post').get(uid=form.cleaned_data['uid'])
 
-            # NOTE: Attachment must be asynchronously deleted by cron.
-            attachment.post = None
-            attachment.save()
+            if attachment.post and attachment.post.author == user:
+                attachment.post = None
+                attachment.save()
 
             files.append({
                 "uid": attachment.uid,
