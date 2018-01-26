@@ -47,7 +47,7 @@ class AttachmentAdmin(admin.ModelAdmin):
 
 
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('title', 'created')
+    list_display = ('title', 'author', 'created')
     form = PostAdminForm
     inlines = [AttachmentInline]
     ordering = ('-created',)

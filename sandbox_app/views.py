@@ -16,11 +16,12 @@ from .forms import (
 from .models import (
     Attachment, Post
 )
+from .viewmixins import AuthorRequiredMixin
 
 
 class PostAttachmentUploadView(LoginRequiredMixin, FileUploadView):
-    login_url = '/admin/login'
-    redirect_field_name = '/admin'
+    # Raise PermissionDenied exception instead of the redirect
+    raise_exception = True
 
     def upload_file(self, *args, **kwargs):
         """
@@ -50,24 +51,25 @@ class PostAttachmentUploadView(LoginRequiredMixin, FileUploadView):
 
 
 class PostAttachmentDeleteView(LoginRequiredMixin, FileDeleteView):
-    login_url = '/admin/login'
-    redirect_field_name = '/admin'
+    # Raise PermissionDenied exception instead of the redirect
+    raise_exception = True
 
     def delete_file(self, *args, **kwargs):
         """
         This method must be overridden to perform deleting files and return JSON file list.
         """
         form = kwargs.pop('form', None)
+        user = kwargs.pop('user', None)
 
         files = []
 
         if form:
-            # NOTE: Attachment class must inherit AbstractAttachment.
-            attachment = Attachment.objects.get(uid=form.cleaned_data['uid'])
+            # NOTE: Attachment class must inherit AbstractAttachment and asynchronously deleted by cron.
+            attachment = Attachment.objects.select_related('post').get(uid=form.cleaned_data['uid'])
 
-            # NOTE: Attachment must be asynchronously deleted by cron.
-            attachment.post = None
-            attachment.save()
+            if attachment.post and attachment.post.author == user:
+                attachment.post = None
+                attachment.save()
 
             files.append({
                 "uid": attachment.uid,
@@ -106,6 +108,10 @@ class PostCreateView(LoginRequiredMixin, CreateView):
             return PostForm
 
     def form_valid(self, form):
+        form.instance.author = self.request.user
+
+        # NOTE: Author has to be set before `form_valid()` which saves Post model instance.
+        # Then, `self.object` is available in order to save attachments.
         response = super().form_valid(form)
 
         # Retrieve attachments not related to any post yet.
@@ -120,7 +126,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         return response
 
 
-class PostUpdateView(LoginRequiredMixin, UpdateView):
+class PostUpdateView(AuthorRequiredMixin, LoginRequiredMixin, UpdateView):
     model = Post
     template_name = 'sandbox_app/post_update.html'
     login_url = '/admin/login'
@@ -151,7 +157,7 @@ class PostUpdateView(LoginRequiredMixin, UpdateView):
         return response
 
 
-class PostDeleteView(LoginRequiredMixin, DeleteView):
+class PostDeleteView(AuthorRequiredMixin, LoginRequiredMixin, DeleteView):
     model = Post
     context_object_name = 'post'
     template_name = 'sandbox_app/post_confirm_delete.html'

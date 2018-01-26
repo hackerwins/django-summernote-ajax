@@ -1,6 +1,7 @@
 import os
 import uuid
 
+from django.conf import settings
 from django.core.files.storage import default_storage
 from django.db import models
 from django.urls import reverse
@@ -33,6 +34,15 @@ class Post(models.Model):
     created = models.DateTimeField(
         verbose_name=_('created time'),
         auto_now_add=True,
+    )
+
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        verbose_name=_('author'),
+        related_name='posts',
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
     )
 
     class Meta:
