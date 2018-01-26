@@ -20,8 +20,8 @@ from .viewmixins import AuthorRequiredMixin
 
 
 class PostAttachmentUploadView(LoginRequiredMixin, FileUploadView):
-    login_url = '/admin/login'
-    redirect_field_name = '/admin'
+    # Raise PermissionDenied exception instead of the redirect
+    raise_exception = True
 
     def upload_file(self, *args, **kwargs):
         """
@@ -51,8 +51,8 @@ class PostAttachmentUploadView(LoginRequiredMixin, FileUploadView):
 
 
 class PostAttachmentDeleteView(LoginRequiredMixin, FileDeleteView):
-    login_url = '/admin/login'
-    redirect_field_name = '/admin'
+    # Raise PermissionDenied exception instead of the redirect
+    raise_exception = True
 
     def delete_file(self, *args, **kwargs):
         """
