@@ -3,7 +3,7 @@ from crispy_forms.layout import Submit
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from django_summernote_ajax.widgets import SummernoteWidget
+from django_summernote_ajax.widgets import SummernoteLiteWidget
 from . import settings as sandbox_app_settings
 from .models import Post
 
@@ -41,6 +41,6 @@ class PostAdminForm(forms.ModelForm):
     class Meta:
         model = Post
         widgets = {
-            'body': SummernoteWidget(wrapper_class='summernote-wrapper-fixed'),
+            'body': SummernoteLiteWidget(wrapper_class='summernote-wrapper-fixed'),
         }
         fields = '__all__'
