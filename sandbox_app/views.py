@@ -16,6 +16,7 @@ from .forms import (
 from .models import (
     Attachment, Post
 )
+from .viewmixins import AuthorRequiredMixin
 
 
 class PostAttachmentUploadView(LoginRequiredMixin, FileUploadView):
@@ -124,7 +125,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         return response
 
 
-class PostUpdateView(LoginRequiredMixin, UpdateView):
+class PostUpdateView(AuthorRequiredMixin, LoginRequiredMixin, UpdateView):
     model = Post
     template_name = 'sandbox_app/post_update.html'
     login_url = '/admin/login'
@@ -155,7 +156,7 @@ class PostUpdateView(LoginRequiredMixin, UpdateView):
         return response
 
 
-class PostDeleteView(LoginRequiredMixin, DeleteView):
+class PostDeleteView(AuthorRequiredMixin, LoginRequiredMixin, DeleteView):
     model = Post
     context_object_name = 'post'
     template_name = 'sandbox_app/post_confirm_delete.html'
