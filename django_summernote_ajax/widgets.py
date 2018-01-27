@@ -4,9 +4,10 @@ from django.utils.safestring import mark_safe
 
 
 class SummernoteWidgetBase(widgets.Textarea):
-    def __init__(self, attrs=None, wrapper_class='', options=''):
+    template_name = 'django_summernote_ajax/django_summernote_ajax.html'
+
+    def __init__(self, attrs=None, wrapper_class=''):
         self.wrapper_class = wrapper_class
-        self.options = options
 
         super(SummernoteWidgetBase, self).__init__(attrs=attrs)
 
@@ -16,7 +17,6 @@ class SummernoteWidgetBase(widgets.Textarea):
                 'name': name,
                 'value': value,
                 'wrapper_class': self.wrapper_class,
-                'options': self.options,
             }
         }
 
@@ -25,8 +25,6 @@ class SummernoteWidgetBase(widgets.Textarea):
 
 
 class SummernoteLiteWidget(SummernoteWidgetBase):
-    template_name = 'django_summernote_ajax/django_summernote_ajax_lite.html'
-
     class Media:
         css = {
             'all': (
@@ -40,8 +38,6 @@ class SummernoteLiteWidget(SummernoteWidgetBase):
 
 
 class SummernoteBs3Widget(SummernoteWidgetBase):
-    template_name = 'django_summernote_ajax/django_summernote_ajax_bs3.html'
-
     class Media:
         css = {
             'all': (
@@ -55,8 +51,6 @@ class SummernoteBs3Widget(SummernoteWidgetBase):
 
 
 class SummernoteBs4Widget(SummernoteWidgetBase):
-    template_name = 'django_summernote_ajax/django_summernote_ajax_bs4.html'
-
     class Media:
         css = {
             'all': (

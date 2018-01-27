@@ -1,3 +1,5 @@
 .summernote-wrapper-fixed {
-    margin-left: 170px;
+    /* prevent from overlapping left label */
+    position: relative;
+    float: left;
 }

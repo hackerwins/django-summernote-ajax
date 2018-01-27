@@ -6,7 +6,7 @@ from django_summernote_ajax.widgets import (
 class PostSummernoteBs4Widget(SummernoteBs4Widget):
     class Media:
         js = (
-            'js/post-summernote-upload.js',
+            'js/post-summernote-ajax.js',
         )
 
 
@@ -17,3 +17,6 @@ class PostAdminSummernoteLiteWidget(SummernoteLiteWidget):
                 'css/django-summernote.css',
             )
         }
+        js = (
+            'js/post-admin-summernote-ajax.js',
+        )
