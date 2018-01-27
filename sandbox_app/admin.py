@@ -52,6 +52,12 @@ class PostAdmin(admin.ModelAdmin):
     inlines = [AttachmentInline]
     ordering = ('-created',)
 
+    class Media:
+        js = (
+            # django admin jQuery is not compatible with summernote.
+            '//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js',
+        )
+
 
 admin.site.register(Post, PostAdmin)
 admin.site.register(Attachment, AttachmentAdmin)
