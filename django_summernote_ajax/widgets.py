@@ -4,9 +4,8 @@ from django.utils.safestring import mark_safe
 
 
 class SummernoteWidgetBase(widgets.Textarea):
-    def __init__(self, attrs=None, wrapper_class='', options=''):
+    def __init__(self, attrs=None, wrapper_class=''):
         self.wrapper_class = wrapper_class
-        self.options = options
 
         super(SummernoteWidgetBase, self).__init__(attrs=attrs)
 
@@ -16,7 +15,6 @@ class SummernoteWidgetBase(widgets.Textarea):
                 'name': name,
                 'value': value,
                 'wrapper_class': self.wrapper_class,
-                'options': self.options,
             }
         }
 
