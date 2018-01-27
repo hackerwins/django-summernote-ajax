@@ -17,3 +17,6 @@ class PostAdminSummernoteLiteWidget(SummernoteLiteWidget):
                 'css/django-summernote.css',
             )
         }
+        js = (
+            'js/post-admin-summernote.js',
+        )
