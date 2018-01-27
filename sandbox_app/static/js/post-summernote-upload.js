@@ -1,6 +1,6 @@
 $(document).ready(function () {
     // Select summernote container (div or textarea)
-    var $sn = $('#id_body');
+    var $sn = $('#id-body');
 
     // Check if input data was changed
     var dirty = false;

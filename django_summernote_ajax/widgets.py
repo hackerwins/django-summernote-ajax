@@ -51,7 +51,9 @@ class SummernoteBs3Widget(SummernoteWidgetBase):
             )
         }
         js = (
-            'js/summernote/summernote.js',
+            'js/summernote/csrf-cookie.js',
+            'js/summernote/summernote.min.js',
+            'js/post-summernote-upload.js',
         )
 
 
@@ -65,5 +67,7 @@ class SummernoteBs4Widget(SummernoteWidgetBase):
             )
         }
         js = (
-            'js/summernote/summernote-bs4.js',
+            'js/summernote/csrf-cookie.js',
+            'js/summernote/summernote-bs4.min.js',
+            'js/post-summernote-upload.js',
         )

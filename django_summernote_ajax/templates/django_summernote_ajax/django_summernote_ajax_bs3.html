@@ -1,25 +1,4 @@
 <div class="{{ widget.wrapper_class }}">
     <textarea id="id-{{ widget.name }}" name="{{ widget.name }}">{% if widget.value %}
         {{ widget.value }}{% endif %}</textarea>
-    <script>
-        var summernoteJQuery = null;
-
-        if (typeof jQuery !== 'undefined') {
-            summernoteJQuery = jQuery;
-        } else if (typeof django !== 'undefined') { //use jQuery come with django admin
-            summernoteJQuery = django.jQuery
-        } else {
-            console.error('cant find jQuery, please make sure your have jQuery imported before this script');
-        }
-
-        if (!!summernoteJQuery) {
-            summernoteJQuery('#id-{{ widget.name }}').summernote({
-                placeholder: 'Enter your message.',
-                tabsize: 2,
-                width: 950,
-                height: 600,
-                {% autoescape off %}{{ widget.options }}{% endautoescape %}
-            });
-        }
-    </script>
 </div>
