@@ -34,8 +34,7 @@ class SummernoteLiteWidget(SummernoteWidgetBase):
             )
         }
         js = (
-            # django admin jQuery is not compatible with summernote.
-            'js/summernote/jquery-3.3.1.min.js',
+            'js/summernote/csrf-cookie.js',
             'js/summernote/summernote-lite.js',
         )
 
