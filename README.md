@@ -15,8 +15,8 @@ If you look for django extension for summernote with out of the functionality, w
 for library
 * Django==2.0.1
 * pytz==2017.3
-* jQuery==3.2.1
-* Bootstrap==4.0.0-beta.2
+* jQuery==3.3.1
+* Bootstrap==4.0.0
 * Summernote=0.8.9
 
 for sandbox demo
