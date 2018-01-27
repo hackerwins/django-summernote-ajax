@@ -4,8 +4,6 @@ from django.utils.safestring import mark_safe
 
 
 class SummernoteWidgetBase(widgets.Textarea):
-    template_name = 'django_summernote_ajax/django_summernote_ajax.html'
-
     def __init__(self, attrs=None, wrapper_class='', options=''):
         self.wrapper_class = wrapper_class
         self.options = options
@@ -27,6 +25,8 @@ class SummernoteWidgetBase(widgets.Textarea):
 
 
 class SummernoteLiteWidget(SummernoteWidgetBase):
+    template_name = 'django_summernote_ajax/django_summernote_ajax_lite.html'
+
     class Media:
         css = {
             'all': (
@@ -35,6 +35,35 @@ class SummernoteLiteWidget(SummernoteWidgetBase):
             )
         }
         js = (
-            'js/summernote/jquery-3.2.1.min.js',  # django admin jQuery is not compatible with summernote.
+            # django admin jQuery is not compatible with summernote.
+            'js/summernote/jquery-3.2.1.min.js',
             'js/summernote/summernote-lite.js',
+        )
+
+
+class SummernoteBs3Widget(SummernoteWidgetBase):
+    template_name = 'django_summernote_ajax/django_summernote_ajax_bs3.html'
+
+    class Media:
+        css = {
+            'all': (
+                'css/summernote/summernote.css',
+            )
+        }
+        js = (
+            'js/summernote/summernote.js',
+        )
+
+
+class SummernoteBs4Widget(SummernoteWidgetBase):
+    template_name = 'django_summernote_ajax/django_summernote_ajax_bs4.html'
+
+    class Media:
+        css = {
+            'all': (
+                'css/summernote/summernote-bs4.css',
+            )
+        }
+        js = (
+            'js/summernote/summernote-bs4.js',
         )
