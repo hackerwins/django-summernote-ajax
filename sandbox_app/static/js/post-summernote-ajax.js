@@ -13,8 +13,6 @@ $(document).ready(function () {
             height: 300,
             callbacks: {
                 onInit: function () {
-                    $nEditor = $sn.next();
-                    $nImageInput = $nEditor.find('.note-image-input');
                 },
                 onChange: function (contents, $editable) {
                     dirty = true;
