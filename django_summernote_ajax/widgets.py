@@ -31,7 +31,6 @@ class SummernoteLiteWidget(SummernoteWidgetBase):
         css = {
             'all': (
                 'css/summernote/summernote-lite.css',
-                'css/django-summernote.css',
             )
         }
         js = (
@@ -53,7 +52,6 @@ class SummernoteBs3Widget(SummernoteWidgetBase):
         js = (
             'js/summernote/csrf-cookie.js',
             'js/summernote/summernote.min.js',
-            'js/post-summernote-upload.js',
         )
 
 
@@ -69,5 +67,4 @@ class SummernoteBs4Widget(SummernoteWidgetBase):
         js = (
             'js/summernote/csrf-cookie.js',
             'js/summernote/summernote-bs4.min.js',
-            'js/post-summernote-upload.js',
         )
