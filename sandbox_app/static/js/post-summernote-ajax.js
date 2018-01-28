@@ -21,10 +21,10 @@ $(document).ready(function () {
                     var formData = new FormData();
 
                     $.ajax({
-                        url: '/upload-file',    // Point to django upload handler view
+                        url: options.upload_url,    // Point to django upload handler view
                         type: 'post',
-                        processData: false,     // file-transfer
-                        contentType: false,     // file-transfer
+                        processData: false,         // file-transfer
+                        contentType: false,         // file-transfer
                         data: formData,
                         beforeSend: function (xhr, settings) {
                             if ('beforeSend' in $.ajaxSettings) {
@@ -39,13 +39,13 @@ $(document).ready(function () {
                                     formData.append('files', file);
 
                                     // Check if maximum file size exceeds.
-                                    if (file.size > 2097152) {
+                                    if (file.size > options.max_upload_size) {
                                         console.error('Maximum file size exceeded.');
                                         xhr.abort();
                                     }
 
                                     // Limit maximum number of files.
-                                    if (++file_count > 10) {
+                                    if (++file_count > options.max_file_count) {
                                         console.error('Maximum number of files exceeded.');
                                         xhr.abort();
                                     }
@@ -97,7 +97,7 @@ $(document).ready(function () {
             var uid = $(this).attr('id').split('thumbnail-')[1];
 
             $.ajax({
-                url: '/delete-file',
+                url: options.delete_url,
                 type: 'post',
                 data: {uid: uid}
             }).done(function (data, textStatus, jqXHR) {
