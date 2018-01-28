@@ -21,7 +21,6 @@ class UploadAttachmentForm(forms.Form):
             raise forms.ValidationError(_('File type is not supported'))
 
         if content.size > django_summernote_ajax_settings.DSA_MAX_UPLOAD_SIZE:
-            print(content.size)
             raise forms.ValidationError(_('Please keep filesize under %s. Current filesize %s') % (
                 filesizeformat(django_summernote_ajax_settings.DSA_MAX_UPLOAD_SIZE), filesizeformat(content.size)))
 
