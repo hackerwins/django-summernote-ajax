@@ -20,10 +20,11 @@ class AbstractAttachment(models.Model):
         editable=False,
     )
 
-    file = models.FileField(
-        verbose_name=_('uploaded file'),
-        upload_to="attachments",
-    )
+    # NOTE: Django 1.8 Local field clashes with field of similar name from base class
+    # file = models.FileField(
+    #    verbose_name=_('uploaded file'),
+    #    upload_to="attachments",
+    # )
 
     created = models.DateTimeField(
         verbose_name=_('created time'),
