@@ -4,7 +4,12 @@ import uuid
 from django.conf import settings
 from django.core.files.storage import default_storage
 from django.db import models
-from django.urls import reverse
+
+try:
+    from django.urls import reverse  # Django 1.11, 2.0
+except ImportError:
+    from django.core.urlresolvers import reverse  # Django 1.8
+
 from django.utils.timezone import datetime
 from django.utils.translation import ugettext_lazy as _
 
