@@ -23,8 +23,8 @@ INSTALLED_APPS = [
 ]
 
 INSTALLED_APPS += [
-    'django_summernote_ajax',
     'crispy_forms',
+    'django_summernote_ajax',
     'sandbox_app',
 ]
 
