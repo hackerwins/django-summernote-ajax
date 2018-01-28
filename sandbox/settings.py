@@ -122,5 +122,9 @@ DSA_MAX_UPLOAD_SIZE = 2097152
 # The maximum number of uploaded files
 POST_MAX_FILE_COUNT = 10
 
+# URLs for file upload and download
+POST_FILE_UPLOAD_URL = '/upload-file'
+POST_FILE_DELETE_URL = '/delete-file'
+
 # Celery / RabbitMQ
 CELERY_BROKER_URL = 'amqp://localhost//'

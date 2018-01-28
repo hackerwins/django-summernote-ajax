@@ -1,3 +1,5 @@
+import json
+
 from django.forms import widgets
 from django.template import loader
 from django.utils.safestring import mark_safe
@@ -6,8 +8,9 @@ from django.utils.safestring import mark_safe
 class SummernoteWidgetBase(widgets.Textarea):
     template_name = 'django_summernote_ajax/django_summernote_ajax.html'
 
-    def __init__(self, attrs=None, wrapper_class=''):
+    def __init__(self, attrs=None, wrapper_class='', options={}):
         self.wrapper_class = wrapper_class
+        self.options = options
 
         super(SummernoteWidgetBase, self).__init__(attrs=attrs)
 
@@ -17,6 +20,7 @@ class SummernoteWidgetBase(widgets.Textarea):
                 'name': name,
                 'value': value,
                 'wrapper_class': self.wrapper_class,
+                'options': json.dumps(self.options),
             }
         }
 
