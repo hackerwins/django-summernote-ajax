@@ -36,7 +36,7 @@ setup(
         'Programming Language :: Python :: 3.6',
     ],
 
-    packages=find_packages(exclude=['docs', 'sandbox', 'sandbox_app']),
+    packages=find_packages(exclude=['sandbox', 'sandbox_app', 'docs', 'tests']),
 
     install_requires=[
         'Django',
@@ -46,7 +46,7 @@ setup(
     scripts=[
     ],
 
-    test_suite='tests.get_test_suite',
+    test_suite='runtests.runtests',
     tests_require=[
     ],
 

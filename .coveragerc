@@ -1,5 +1,8 @@
 [run]
-source = django_summernote_ajax
+source = \
+    django_summernote_ajax
+    sandbox_app
+
 omit = \
     */migrations/*
 
