@@ -1,4 +1,6 @@
 # django-summernote-ajax
+[![Build Status](https://travis-ci.org/summernote/django-summernote-ajax.svg?branch=master)](https://travis-ci.org/summernote/django-summernote-ajax)
+
 Summernote & Ajax Image Upload on Django
 
 **CURRENTLY UNDER DEVELOPMENT**
