@@ -1,4 +1,7 @@
+from django.apps import apps
 from django.test import TestCase
+
+from .apps import DjangoSummernoteAjaxConfig
 
 
 class DjangoSummernoteAjaxTest(TestCase):
@@ -8,5 +11,7 @@ class DjangoSummernoteAjaxTest(TestCase):
     def tearDown(self):
         pass
 
-    def test_add(self):
-        self.assertEqual(1 + 1, 2)
+    def test_apps(self):
+        self.assertEqual(DjangoSummernoteAjaxConfig.name, 'django_summernote_ajax')
+        self.assertEqual(DjangoSummernoteAjaxConfig.verbose_name, 'Django Summernote Ajax')
+        self.assertEqual(apps.get_app_config('django_summernote_ajax').name, 'django_summernote_ajax')

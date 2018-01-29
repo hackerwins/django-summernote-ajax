@@ -1,6 +1,8 @@
+from django.apps import apps
 from django.test import TestCase
 from django.utils import timezone
 
+from .apps import SandboxAppConfig
 from .models import (
     Post, upload_directory_path
 )
@@ -16,6 +18,11 @@ class SandboxAppTest(TestCase):
 
     def tearDown(self):
         pass
+
+    def test_apps(self):
+        self.assertEqual(SandboxAppConfig.name, 'sandbox_app')
+        self.assertEqual(SandboxAppConfig.verbose_name, 'sandbox')
+        self.assertEqual(apps.get_app_config('sandbox_app').name, 'sandbox_app')
 
     def test_post_creation(self):
         post = Post.objects.get(id=1)
