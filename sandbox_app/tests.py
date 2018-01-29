@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.utils import timezone
 
 from .models import (
-    Post
+    Post, upload_directory_path
 )
 
 
@@ -26,3 +26,9 @@ class SandboxAppTest(TestCase):
     def test_post_get_absolute_url(self):
         post = Post.objects.get(id=1)
         self.assertEquals(post.get_absolute_url(), '/posts/1/')
+
+    def test_attachment_creation(self):
+        path = upload_directory_path(None, "test.png")
+        self.assertNotEqual("test.png", path)
+        self.assertTrue(path.startswith('attachments'))
+        self.assertTrue(path.endswith('png'))
