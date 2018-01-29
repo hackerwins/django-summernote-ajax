@@ -34,7 +34,7 @@ class SandboxAppTest(TestCase):
         post = Post.objects.get(id=1)
         self.assertEquals(post.get_absolute_url(), '/posts/1/')
 
-    def test_attachment_creation(self):
+    def test_upload_directory_path(self):
         path = upload_directory_path(None, "test.png")
         self.assertNotEqual("test.png", path)
         self.assertTrue(path.startswith('attachments'))
