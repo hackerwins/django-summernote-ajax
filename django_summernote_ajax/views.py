@@ -11,8 +11,8 @@ class FileUploadView(FormView):
     form_class = UploadAttachmentForm
 
     def upload_file(self, *args, **kwargs):
-        """Must be overridden"""
-        return None
+        """Abstract method must be overridden."""
+        raise NotImplementedError
 
     def form_valid(self, form):
         """If the form is valid, return JSON file list after saving them"""
@@ -32,8 +32,8 @@ class FileDeleteView(FormView):
     form_class = DeleteAttachmentForm
 
     def delete_file(self, *args, **kwargs):
-        """Must be overridden"""
-        return None
+        """Abstract method must be overridden."""
+        raise NotImplementedError
 
     def form_valid(self, form):
         """If the form is valid, return JSON file list after deleting them"""
