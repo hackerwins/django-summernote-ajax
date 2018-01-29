@@ -23,6 +23,22 @@ DATABASES = {
     }
 }
 
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
 # The content-type header uploaded with the file (default: ['image', 'video'])
 DSA_CONTENT_TYPES = ['image', 'video']
 # The allowed file extensions (default: ['jpg', 'jpeg', 'gif', 'png'])
