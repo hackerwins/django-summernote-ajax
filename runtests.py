@@ -11,7 +11,7 @@ def runtests():
     django.setup()
 
     TestRunner = get_runner(settings)
-    test_runner = TestRunner(verbosity=1, interactive=True)
+    test_runner = TestRunner(verbosity=2, interactive=True)
     failures = test_runner.run_tests(['django_summernote_ajax', 'sandbox_app'])
     sys.exit(bool(failures))
 

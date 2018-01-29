@@ -26,7 +26,7 @@ INSTALLED_APPS += [
 
 # Dependencies
 for library
-* Django==2.0.1
+* Django>=1.11 (1.8 LTs is supported until April 2018.)
 * pytz==2017.3
 * jQuery==3.3.1
 * Bootstrap==4.0.0

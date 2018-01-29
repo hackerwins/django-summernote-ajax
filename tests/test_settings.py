@@ -14,6 +14,8 @@ INSTALLED_APPS += [
     'sandbox_app',
 ]
 
+ROOT_URLCONF = 'sandbox.urls'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
