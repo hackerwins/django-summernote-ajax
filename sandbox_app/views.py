@@ -1,10 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-
-try:
-    from django.urls import reverse_lazy  # Django 1.11, 2.0
-except ImportError:
-    from django.core.urlresolvers import reverse_lazy  # Django 1.8
-
+from django.urls import reverse_lazy
 from django.views.generic import (
     ListView, DetailView
 )
