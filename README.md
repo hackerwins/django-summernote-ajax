@@ -8,6 +8,19 @@ This package is not off-the-shelf product.
 If you look for django extension for summernote with out of the functionality, we recommend to use [django-summernote](https://github.com/summernote/django-summernote).
 
 # Installation and Setup
+## Install package
+```
+pip install django-summernote-ajax
+```
+
+## Register into installed apps
+```
+INSTALLED_APPS += [
+    ...
+    'django_summernote_ajax',
+    ...
+]
+```
 
 # Features
 
