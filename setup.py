@@ -1,5 +1,3 @@
-import os
-
 from setuptools import (
     setup, find_packages
 )
@@ -8,18 +6,16 @@ from django_summernote_ajax import (
     VERSION, PROJECT, AUTHOR
 )
 
-with open(os.path.join(os.path.dirname(__file__), 'README.md')) as readme:
-    README = readme.read()
-
 setup(
     name=PROJECT,
     version=VERSION,
     description='Yet another Summernote plugin for Django',
-    long_description=README,
+    keywords='Django,Summernote,jQuery',
     author=AUTHOR,
     maintainer='django-summernote-ajax maintainers',
     url='http://github.com/summernote/django-summernote-ajax',
     license='MIT',
+    zip_safe=False,
 
     # See https://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
@@ -49,6 +45,4 @@ setup(
     test_suite='runtests.runtests',
     tests_require=[
     ],
-
-    zip_safe=False,
 ),
