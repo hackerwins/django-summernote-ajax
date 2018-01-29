@@ -1,5 +1,9 @@
 from django.apps import apps
-from django.test import TestCase
+from django.contrib import auth
+from django.contrib.auth.models import User
+from django.test import (
+    TestCase, Client
+)
 from django.utils import timezone
 
 from .apps import SandboxAppConfig
@@ -10,7 +14,8 @@ from .models import (
 
 class SandboxAppTest(TestCase):
     def setUp(self):
-        pass
+        self.username = 'dsa'
+        self.password = 'pass'
 
     @classmethod
     def setUpTestData(cls):
@@ -39,3 +44,11 @@ class SandboxAppTest(TestCase):
         self.assertNotEqual("test.png", path)
         self.assertTrue(path.startswith('attachments'))
         self.assertTrue(path.endswith('png'))
+
+    def test_user_is_not_authenticated(self):
+        user = auth.get_user(self.client)
+        self.assertTrue(not user.is_authenticated)
+
+    def test_login(self):
+        self.user = User.objects.create_user(username=self.username, password=self.password)
+        self.assertTrue(Client().login(username=self.username, password=self.password))
