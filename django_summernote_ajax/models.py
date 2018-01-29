@@ -35,3 +35,6 @@ class AbstractAttachment(models.Model):
         verbose_name = _('attachment')
         verbose_name_plural = _('attachments')
         ordering = ['-created']
+
+    def __str__(self):
+        return self.name
