@@ -24,11 +24,13 @@ class SandboxAppTest(TestCase):
     def tearDown(self):
         pass
 
+    # apps
     def test_apps(self):
         self.assertEqual(SandboxAppConfig.name, 'sandbox_app')
         self.assertEqual(SandboxAppConfig.verbose_name, 'sandbox')
         self.assertEqual(apps.get_app_config('sandbox_app').name, 'sandbox_app')
 
+    # models
     def test_post_creation(self):
         post = Post.objects.get(id=1)
         self.assertTrue(isinstance(post, Post))
@@ -45,6 +47,11 @@ class SandboxAppTest(TestCase):
         self.assertTrue(path.startswith('attachments'))
         self.assertTrue(path.endswith('png'))
 
+    # widgets
+
+    # forms
+
+    # views
     def test_user_is_not_authenticated(self):
         user = auth.get_user(self.client)
         self.assertTrue(not user.is_authenticated)
