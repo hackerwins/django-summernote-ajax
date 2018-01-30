@@ -66,9 +66,13 @@ class SandboxAppTest(TestCase):
         self.assertIn('summernote-widget', html)
         self.assertFalse(form.is_valid())
 
-    def test_post_attachment_form(self):
+    def test_invalid_empty_post_attachment_form(self):
         form = PostAttachmentForm()
         html = form.as_p()
+        self.assertIn('summernote-widget', html)
+        self.assertFalse(form.is_valid())
+
+    # TODO: attachment form test (valid, empty list, over limit)
 
     def test_valid_post_admin_form(self):
         post = Post.objects.get(id=1)
