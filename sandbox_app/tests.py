@@ -95,6 +95,8 @@ class SandboxAppTest(TestCase):
         self.assertIn('summernote-widget', html)
         self.assertFalse(form.is_valid())
 
+    # viewmxins
+
     # views
     def test_user_is_not_authenticated(self):
         user = auth.get_user(self.client)
