@@ -7,6 +7,9 @@ from django.test import (
 from django.utils import timezone
 
 from .apps import SandboxAppConfig
+from .forms import (
+    PostForm, PostAttachmentForm, PostAdminForm
+)
 from .models import (
     Post, upload_directory_path
 )
@@ -50,6 +53,35 @@ class SandboxAppTest(TestCase):
     # widgets
 
     # forms
+    def test_valid_post_form(self):
+        post = Post.objects.get(id=1)
+        form = PostForm(data={'title': post.title, 'body': post.body})
+        html = form.as_p()
+        self.assertIn('summernote-widget', html)
+        self.assertTrue(form.is_valid())
+
+    def test_invalid_post_form(self):
+        form = PostForm(data={'title': '', 'body': ''})
+        html = form.as_p()
+        self.assertIn('summernote-widget', html)
+        self.assertFalse(form.is_valid())
+
+    def test_post_attachment_form(self):
+        form = PostAttachmentForm()
+        html = form.as_p()
+
+    def test_valid_post_admin_form(self):
+        post = Post.objects.get(id=1)
+        form = PostAdminForm(data={'title': post.title, 'body': post.body})
+        html = form.as_p()
+        self.assertIn('summernote-widget', html)
+        self.assertTrue(form.is_valid())
+
+    def test_invalid_post_admin_form(self):
+        form = PostAdminForm(data={'title': '', 'body': ''})
+        html = form.as_p()
+        self.assertIn('summernote-widget', html)
+        self.assertFalse(form.is_valid())
 
     # views
     def test_user_is_not_authenticated(self):
