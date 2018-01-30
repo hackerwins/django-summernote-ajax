@@ -12,10 +12,10 @@ urlpatterns = [
     url(r'^$',
         PostListView.as_view(), name='home'),
 
-    url(r'^upload-file/$',
+    url(r'^upload-file$',
         PostAttachmentUploadView.as_view(), name='post-file-upload'),
 
-    url(r'^delete-file/$',
+    url(r'^delete-file$',
         PostAttachmentDeleteView.as_view(), name='post-file-delete'),
 
     url(r'^posts/$',

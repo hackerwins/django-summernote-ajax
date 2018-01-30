@@ -7,6 +7,9 @@ from django.test import (
 from django.utils import timezone
 
 from .apps import SandboxAppConfig
+from .forms import (
+    PostForm, PostAttachmentForm, PostAdminForm
+)
 from .models import (
     Post, upload_directory_path
 )
@@ -24,11 +27,13 @@ class SandboxAppTest(TestCase):
     def tearDown(self):
         pass
 
+    # apps
     def test_apps(self):
         self.assertEqual(SandboxAppConfig.name, 'sandbox_app')
         self.assertEqual(SandboxAppConfig.verbose_name, 'sandbox')
         self.assertEqual(apps.get_app_config('sandbox_app').name, 'sandbox_app')
 
+    # models
     def test_post_creation(self):
         post = Post.objects.get(id=1)
         self.assertTrue(isinstance(post, Post))
@@ -45,6 +50,44 @@ class SandboxAppTest(TestCase):
         self.assertTrue(path.startswith('attachments'))
         self.assertTrue(path.endswith('png'))
 
+    # widgets
+
+    # forms
+    def test_valid_post_form(self):
+        post = Post.objects.get(id=1)
+        form = PostForm(data={'title': post.title, 'body': post.body})
+        html = form.as_p()
+        self.assertIn('summernote-widget', html)
+        self.assertTrue(form.is_valid())
+
+    def test_invalid_post_form(self):
+        form = PostForm(data={'title': '', 'body': ''})
+        html = form.as_p()
+        self.assertIn('summernote-widget', html)
+        self.assertFalse(form.is_valid())
+
+    def test_invalid_empty_post_attachment_form(self):
+        form = PostAttachmentForm()
+        html = form.as_p()
+        self.assertIn('summernote-widget', html)
+        self.assertFalse(form.is_valid())
+
+    # TODO: attachment form test (valid, empty list, over limit)
+
+    def test_valid_post_admin_form(self):
+        post = Post.objects.get(id=1)
+        form = PostAdminForm(data={'title': post.title, 'body': post.body})
+        html = form.as_p()
+        self.assertIn('summernote-widget', html)
+        self.assertTrue(form.is_valid())
+
+    def test_invalid_post_admin_form(self):
+        form = PostAdminForm(data={'title': '', 'body': ''})
+        html = form.as_p()
+        self.assertIn('summernote-widget', html)
+        self.assertFalse(form.is_valid())
+
+    # views
     def test_user_is_not_authenticated(self):
         user = auth.get_user(self.client)
         self.assertTrue(not user.is_authenticated)
