@@ -13,6 +13,10 @@ class UploadAttachmentForm(forms.Form):
 
     def clean_files(self):
         content = self.cleaned_data['files']
+
+        if not content:
+            raise forms.ValidationError(_('Invalid file type'))
+
         content_type = content.content_type.split('/')[0]
         extension = splitext(content.name)[1][1:].lower()
 
