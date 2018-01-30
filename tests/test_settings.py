@@ -47,7 +47,7 @@ DSA_FILE_EXTENSIONS = ['jpg', 'jpeg', 'gif', 'png']
 DSA_MAX_UPLOAD_SIZE = 2097152
 
 # The maximum number of uploaded files
-POST_MAX_FILE_COUNT = 1
+POST_MAX_FILE_COUNT = 10
 
 # URLs for file upload and download
 POST_FILE_UPLOAD_URL = '/upload-file'
