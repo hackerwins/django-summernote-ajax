@@ -72,7 +72,15 @@ class SandboxAppTest(TestCase):
         self.assertIn('summernote-widget', html)
         self.assertFalse(form.is_valid())
 
-    # TODO: attachment form test (valid, empty list, over limit)
+    def test_valid_empty_post_attachment_form(self):
+        # empty list of attachment
+        pass
+
+    def test_valid_post_attachment_form(self):
+        pass
+
+    def test_over_max_post_attachment_form(self):
+        pass
 
     def test_valid_post_admin_form(self):
         post = Post.objects.get(id=1)
@@ -86,6 +94,8 @@ class SandboxAppTest(TestCase):
         html = form.as_p()
         self.assertIn('summernote-widget', html)
         self.assertFalse(form.is_valid())
+
+    # viewmxins
 
     # views
     def test_user_is_not_authenticated(self):

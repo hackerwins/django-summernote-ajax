@@ -30,4 +30,6 @@ class DjangoSummernoteAjaxTest(TestCase):
 
     # forms
 
+    # viewmixins
+
     # views
