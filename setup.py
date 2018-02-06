@@ -32,6 +32,7 @@ setup(
     ],
 
     packages=find_packages(exclude=['sandbox', 'sandbox_app', 'docs', 'tests']),
+    include_package_data=True,
 
     install_requires=[
         'Django',
